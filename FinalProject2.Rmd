@@ -1,0 +1,60 @@
+---
+title: "College Student Sleep and Mental Health Analysis"
+author: "Chenyun"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Introduction
+
+The purpose of this analysis is to investigate the relationship between college students' sleep habits and their mental health, including stress, anxiety, and depression. The dataset, `sleepstudy.txt`, contains variables related to sleep patterns, academic performance, and mental health indicators of college students.
+
+# Data Loading
+
+```{r, load-data}
+# Load the sleepstudy.txt dataset
+file_path <- "sleepstudy.txt"  
+sleep_data <- read.table(file_path, header = TRUE, sep = "")
+```
+
+# Descriptive Analysis
+
+## Tabular analysis
+```{r, table1}
+# Load necessary libraries
+library(dplyr)
+library(knitr)
+
+# Summarize key variables related to sleep and mental health
+summary_table <- sleep_data %>%
+  select(GPA, PoorSleepQuality, DepressionScore, AnxietyScore, StressScore, AverageSleep) %>%
+  summary()
+
+# Display the table using kable
+kable(summary_table, caption = "Summary of Key Variables: GPA, Sleep Quality, and Mental Health Scores")
+```
+
+## Summary of the Table:
+
+The table above summarizes key variables in the dataset, including GPA, Sleep Quality, Depression Scores, Anxiety Scores, Stress Scores, and Average Sleep. The median GPA is 3.3 with a mean of 3.24. Sleep quality scores range from 1 to 18 with a mean of 6.26, showing variability in sleep quality among the students. Anxiety and stress scores are somewhat elevated, with mean values of 5.37 and 9.47, respectively. The average sleep duration is about 8 hours, which is consistent with typical student sleep patterns.
+
+## Graphical analysis
+```{r, plot-data}
+# Load ggplot2 for visualization
+library(ggplot2)
+
+# Create scatter plot of AverageSleep vs StressScore
+ggplot(sleep_data, aes(x = AverageSleep, y = StressScore)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  theme_minimal() +
+  labs(title = "Relationship between Average Sleep and Stress Score",
+       x = "Average Sleep (hours)",
+       y = "Stress Score")
+```
+
+## Summary of the Figure:
+
+The scatter plot above shows the relationship between average sleep and stress scores. There is a slight negative correlation between the two variables, indicating that as the average sleep increases, stress scores tend to decrease. However, the relationship appears weak, with significant variability in stress levels even among students with similar sleep patterns.
+
+
