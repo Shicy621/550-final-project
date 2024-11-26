@@ -23,3 +23,10 @@ clean:
 
 # Phony targets
 .PHONY: all clean
+
+# install
+.PHONY: install
+install:
+  Rscript -e "renv::restore(prompt = FALSE)"
+
+
