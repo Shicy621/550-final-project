@@ -28,5 +28,28 @@ clean:
 .PHONY: install
 install:
   Rscript -e "renv::restore(prompt = FALSE)"
+  
+ # Rule to build the Docker image
+docker-build:
+		docker build -t final .
+
+# Rule to run the Docker container and generate the report
+docker-run:
+		docker run --rm -v $(PWD)/output:/project/output final
+
+# Rule to create the output directory if it doesn't exist
+create-output-dir:
+		mkdir -p $(OUTPUT_DIR)
+
+# Combined rule to build and run in Docker
+docker: create-output-dir docker-build docker-run
+
+# Clean up the output directory and remove Docker container artifacts
+docker-clean:
+		rm -rf $(OUTPUT_DIR)/*
+		docker image rm final --force
+
+# Phony targets to prevent conflicts with file names
+.PHONY: docker-build docker-run create-output-dir docker docker-clean
 
 

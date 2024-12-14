@@ -62,3 +62,87 @@ The final report `report.html` contains the following:
 
 1. **Table Generation Code**: The table generation code is located in `code/output.R`. This section uses `dplyr` and `knitr::kable()` to generate descriptive statistics tables and saves the result as `summary_table.rds` in the `output` folder.
 2. **Chart Generation Code**: The chart generation code is also located in `code/output.R`. This section uses `ggplot2` to plot a scatterplot showing the relationship between average hours of sleep and stress scores, and saves it as `stress_sleep_plot.png` in the `output` folder.
+
+## How To Use Makefile
+
+The`Makefile`automates the process of generating the final report and managing dependencies. Below are the available targets and instructions for their usage.
+
+## Default Target
+
+The default target is `all`, which generates the final report by running the entire pipeline (generating intermediate files and rendering the final HTML report). Run the following command to execute the default target:
+
+```bash
+make
+```
+
+This command will:
+
+1.Generate the summary table (`summary_table.rds`) and scatter plot (`stress_sleep_plot.png`) by executing `output.R`.
+2. Use `render.R` to render `FinalProject2.Rmd` and produce the final report (`FinalProject2.html`).
+
+## Clean the Output Directory
+To remove all generated files in the `output` directory, run:
+```bash
+make clean
+```
+This will delete the intermediate and final outputs, including `.rds`, `.png`, and `.html` files.
+
+## Using Docker
+If you prefer to run the pipeline inside a Docker container for reproducibility, use the following `Makefile` targets.
+
+1. **Build the Docker Image**
+To build the Docker image, run:
+```bash
+make docker-build
+```
+
+2. **Run the Docker Container**
+To execute the pipeline inside the Docker container and generate the report, run:
+```bash
+make docker-run
+```
+
+3. **Combined Build and Run**
+To combine the Docker build and run processes into one step, use:
+```bash
+make docker
+````
+
+4. **Clean the Docker Environment**
+To clean both the `output` directory and the Docker image, run:
+
+
+## Compatibility Considerations
+
+**For Windows Users**
+If you are using Git Bash on Windows, Docker requires an extra `/` at the start of mounted file paths. The `Makefile` is designed to handle this for cross-platform compatibility. However, if you encounter issues, manually run the following command to mount the `output` directory correctly:
+```bash
+docker run --rm -v "/$(PWD)/output:/project/output" final
+```
+**For Mac/Linux Users**
+The `Makefile` is fully compatible with Mac and Linux systems. Run the make commands directly as described in the sections above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
